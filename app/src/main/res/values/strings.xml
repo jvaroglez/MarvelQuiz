@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">MarvelQuiz</string>
+    <string name="question_pparker">El nombre real de Spider-Man es Peter Parker</string>
+    <string name="question_jarvis">Jarvis es la IA que controla el traje de Iron-Man</string>>
+    <string name="question_antman">Scott Lang es el Ant-Man original</string>
+    <string name="question_wakanda">T\'Challa es el rey de Wakanda</string>
+    <string name="question_guerracap">Capitán América luchó en la Primera Guerra Mundial</string>
+    <string name="question_drstrange">Antes de ser Hechicero, Doctor Strange era cardiólogo</string>
+    <string name="question_daredevil">Matt Murdock trabaja como abogado cuando no es Dare Devil</string>
+    <string name="question_kbishop">Kate Bishop es la hija de Hawkeye</string>
+    <string name="question_nidavellir">Las armas que usa Thor fueron forjadas en Nidavellir</string>
+    <string name="question_quill">Peter Quill es el líder de los Guardianes de la Galaxia</string>
+    <string name="question_bucky">El brazo metálico del Soldado del Invierno es el derecho</string>
+    <string name="question_fantastic">Reed Richards no es un miembro de los Illuminati</string>
+    <string name="question_wanda">El nombre real de Scarlet Witch es Wanda Maximoff</string>
+    <string name="question_xmen">Los X-Men son liderados por Magneto</string>
+    <string name="true_button">True</string>
+    <string name="false_button">False</string>
+    <string name="prev_button">Prev</string>
+    <string name="next_button">Next</string>
+    <string name="correct_toast">Correct</string>>
+    <string name="incorrect_toast">Incorrect</string>
+</resources>
