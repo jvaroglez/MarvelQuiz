@@ -3,11 +3,14 @@ package varo.jose.quiz
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import varo.jose.quiz.databinding.ActivityMainBinding
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,8 +37,9 @@ class MainActivity : AppCompatActivity() {
     private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
+        super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate(Bundle?) called")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -44,17 +48,17 @@ class MainActivity : AppCompatActivity() {
 
         binding.trueButton.setOnClickListener { view: View ->
             //Toast.makeText(this,R.string.correct_toast,Toast.LENGTH_SHORT).show()
-            val snackBar = Snackbar.make(view,R.string.correct_toast,Snackbar.LENGTH_SHORT)
-            snackBar.setBackgroundTint(resources.getColor(R.color.green))
-            snackBar.show()
-            checkAnswer(true)
+            //val snackBar = Snackbar.make(view,R.string.correct_toast,Snackbar.LENGTH_SHORT)
+            //snackBar.setBackgroundTint(resources.getColor(R.color.green))
+            //snackBar.show()
+            checkAnswer(true, view)
         }
         binding.falseButton.setOnClickListener { view: View ->
             //Toast.makeText(this,R.string.incorrect_toast,Toast.LENGTH_SHORT).show()
-            val snackBar = Snackbar.make(view,R.string.incorrect_toast,Snackbar.LENGTH_SHORT)
-            snackBar.setBackgroundTint(resources.getColor(R.color.red))
-            snackBar.show()
-            checkAnswer(false)
+            //val snackBar = Snackbar.make(view,R.string.incorrect_toast,Snackbar.LENGTH_SHORT)
+            //snackBar.setBackgroundTint(resources.getColor(R.color.red))
+            //snackBar.show()
+            checkAnswer(false, view)
         }
 
         binding.prevButton.setOnClickListener {
@@ -71,9 +75,39 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
 
+        binding.questionTextView.setOnClickListener {
+            currentIndex = (currentIndex + 1) % questionBank.size
+            updateQuestion()
+        }
+
         //val questionTextResId = questionBank[currentIndex].textResId
         //binding.questionTextView.setText(questionTextResId)
         updateQuestion()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart() called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
     }
 
     private fun updateQuestion() {
@@ -81,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         binding.questionTextView.setText(questionTextResId)
     }
 
-    private fun checkAnswer(userAnswer: Boolean) {
+    private fun checkAnswer(userAnswer: Boolean, view:View) {
         val correctAnswer = questionBank[currentIndex].answer
 
         val messageResId = if (userAnswer == correctAnswer) {
@@ -89,8 +123,19 @@ class MainActivity : AppCompatActivity() {
         } else {
             R.string.incorrect_toast
         }
-        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
-                .show()
+
+        val color = if (userAnswer == correctAnswer) {
+            R.color.green
+        } else {
+            R.color.red
+        }
+
+        val snackBar = Snackbar.make(view,messageResId,Snackbar.LENGTH_SHORT)
+        snackBar.setBackgroundTint(resources.getColor(color))
+        snackBar.show()
+
+        //Toast.makeText(this, messageResId, Toast.LENGTH_SHORT)
+                //.show()
     }
 
 }
