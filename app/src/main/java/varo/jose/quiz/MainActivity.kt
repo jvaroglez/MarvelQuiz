@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.google.android.material.snackbar.Snackbar
 import varo.jose.quiz.databinding.ActivityMainBinding
 
@@ -15,26 +16,10 @@ private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val quizViewModel: QuizViewModel by viewModels()
     //private lateinit var trueButton : Button
     //private lateinit var falseButton : Button
-    private val questionBank = listOf(
-        Question(R.string.question_pparker,true),
-        Question(R.string.question_jarvis,true),
-        Question(R.string.question_antman,false),
-        Question(R.string.question_wakanda, true),
-        Question(R.string.question_guerracap, false),
-        Question(R.string.question_drstrange, false),
-        Question(R.string.question_daredevil, true),
-        Question(R.string.question_kbishop, false),
-        Question(R.string.question_nidavellir,true),
-        Question(R.string.question_quill, true),
-        Question(R.string.question_bucky, false),
-        Question(R.string.question_fantastic, false),
-        Question(R.string.question_wanda, true),
-        Question(R.string.question_xmen, false)
-    )
-
-    private var currentIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //setContentView(R.layout.activity_main)
@@ -42,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate(Bundle?) called")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d(TAG, "Got a QuizViewModel: $quizViewModel")
 
         //trueButton = findViewById(R.id.true_button)
         //falseButton = findViewById(R.id.false_button)
@@ -62,21 +48,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.prevButton.setOnClickListener {
-            currentIndex = (currentIndex - 1) % questionBank.size
+            //currentIndex = (currentIndex - 1) % questionBank.size
             //val questionTextResId = questionBank[currentIndex].textResId
             //binding.questionTextView.setText(questionTextResId)
+            quizViewModel.moveToPrev()
             updateQuestion()
         }
 
         binding.nextButton.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            //currentIndex = (currentIndex + 1) % questionBank.size
             //val questionTextResId = questionBank[currentIndex].textResId
             //binding.questionTextView.setText(questionTextResId)
+            quizViewModel.moveToNext()
             updateQuestion()
         }
 
         binding.questionTextView.setOnClickListener {
-            currentIndex = (currentIndex + 1) % questionBank.size
+            //currentIndex = (currentIndex + 1) % questionBank.size
+            quizViewModel.moveToNext()
             updateQuestion()
         }
 
@@ -111,20 +100,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateQuestion() {
-        val questionTextResId = questionBank[currentIndex].textResId
+        //val questionTextResId = questionBank[currentIndex].textResId
+        val questionTextResId = quizViewModel.currentQuestionText
         binding.questionTextView.setText(questionTextResId)
     }
 
     private fun checkAnswer(userAnswer: Boolean, view:View) {
-        val correctAnswer = questionBank[currentIndex].answer
+        //val correctAnswer = questionBank[currentIndex].answer
+        val questionTextResId = quizViewModel.currentQuestionAnswer
 
-        val messageResId = if (userAnswer == correctAnswer) {
+        val messageResId = if (userAnswer == questionTextResId) {
             R.string.correct_toast
         } else {
             R.string.incorrect_toast
         }
 
-        val color = if (userAnswer == correctAnswer) {
+        val color = if (userAnswer == questionTextResId) {
             R.color.green
         } else {
             R.color.red
