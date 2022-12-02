@@ -2,5 +2,4 @@ package varo.jose.quiz
 
 import androidx.annotation.StringRes
 
-data class Question (@StringRes val textResId:Int, val answer:Boolean){
-}
+data class Question (@StringRes val textResId:Int, val answer:Boolean)
